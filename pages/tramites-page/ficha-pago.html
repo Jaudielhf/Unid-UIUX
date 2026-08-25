@@ -114,7 +114,7 @@
         color: #ffffff;
       }
 
-      /* Contenedor Principal flexible para empujar el footer abajo */
+      /* Contenedor Principal flexible */
       .main-content {
         flex: 1 0 auto;
       }
@@ -125,7 +125,7 @@
         border-radius: 10px;
         padding: 1.25rem 1.5rem;
         border: 1px solid var(--border-color);
-        border-left: 5px solid var(--primary-blue); /* Acento visual de pertenencia */
+        border-left: 5px solid var(--primary-blue);
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
       }
 
@@ -141,7 +141,7 @@
         font-size: 1.3rem;
       }
 
-      /* Estilos de Formulario y Campos con Iconos Integrados */
+      /* Formulario y Campos */
       .form-label-custom {
         font-size: 0.875rem;
         font-weight: 700;
@@ -178,7 +178,7 @@
         z-index: 3;
       }
 
-      /* Estructura Inferior Unificada (Barra de Pago + Footer) */
+      /* Estructura Inferior Unificada */
       .bottom-sticky-wrapper {
         margin-top: auto;
         position: sticky;
@@ -202,7 +202,7 @@
       }
 
       .total-amount-val {
-        color: var(--accent-green); /* Color verde financiero de certeza */
+        color: var(--accent-green);
         font-size: clamp(1.6rem, 3vw, 1.95rem);
         font-weight: 800;
         margin-left: 0.5rem;
@@ -246,18 +246,29 @@
       .footer-version {
         color: rgba(255, 255, 255, 0.45);
       }
-      /* Psicología y Estética del Modal de Salida */
+
+      /* Modales */
       .bg-danger-subtle {
         background-color: #fee2e2 !important;
+      }
+
+      .bg-success-subtle {
+        background-color: #dcfce7 !important;
       }
 
       .modal-content {
         border-radius: 12px;
       }
+
+      .summary-box {
+        background-color: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        padding: 1rem;
+      }
     </style>
   </head>
   <body>
-    <!-- modal -->
     <!-- Modal Confirmación Cierre de Sesión -->
     <div
       class="modal fade"
@@ -300,7 +311,96 @@
       </div>
     </div>
 
-    <!-- Header Principal (Conservado Intacto) -->
+    <!-- Modal Confirmar y Generar Ficha de Pago -->
+    <div
+      class="modal fade"
+      id="modalFicha"
+      tabindex="-1"
+      aria-labelledby="modalFichaLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg">
+          <div class="modal-header border-0 pb-0">
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body px-4 pb-4 pt-0">
+            <div class="text-center mb-3">
+              <div
+                class="rounded-circle bg-success-subtle text-success d-inline-flex align-items-center justify-content-center mb-2"
+                style="width: 56px; height: 56px"
+              >
+                <i class="bi bi-file-earmark-pdf-fill fs-2"></i>
+              </div>
+              <h5 class="fw-bold mb-1" id="modalFichaLabel">
+                Generar Ficha de Pago
+              </h5>
+              <p class="text-muted small mb-0">
+                Verifica los detalles del trámite antes de descargar.
+              </p>
+            </div>
+
+            <!-- Resumen de Ficha -->
+            <div class="summary-box mb-3">
+              <div class="mb-2">
+                <span class="text-muted small d-block">CONCEPTO SELECCIONADO</span>
+                <strong id="modalConceptoText" class="text-dark small"
+                  >Título TSU 202660</strong
+                >
+              </div>
+              <div class="row g-2 mb-2 border-top pt-2">
+                <div class="col-6">
+                  <span class="text-muted small d-block">PERIODO</span>
+                  <span id="modalPeriodoText" class="fw-semibold small text-dark"
+                    >Sep-Dic 2026</span
+                  >
+                </div>
+                <div class="col-6">
+                  <span class="text-muted small d-block">NÚMERO DE PAGOS</span>
+                  <span id="modalPagosText" class="fw-semibold small text-dark"
+                    >1</span
+                  >
+                </div>
+              </div>
+              <div class="row g-2 border-top pt-2">
+                <div class="col-6">
+                  <span class="text-muted small d-block">VIGENCIA HASTA</span>
+                  <span id="modalVigenciaText" class="fw-semibold small text-dark"
+                    >31/12/2026</span
+                  >
+                </div>
+                <div class="col-6">
+                  <span class="text-muted small d-block">MONTO TOTAL</span>
+                  <strong id="modalMontoText" class="text-success fs-6"
+                    >$3,968.00 MXN</strong
+                  >
+                </div>
+              </div>
+            </div>
+
+            <div class="alert alert-info border-0 bg-light text-secondary small mb-4 d-flex align-items-center gap-2">
+              <i class="bi bi-info-circle-fill text-primary fs-5"></i>
+              <span>El documento generado incluirá la línea de captura requerida para pagos en ventanilla bancaria.</span>
+            </div>
+
+            <button
+              type="button"
+              id="btnConfirmDownload"
+              class="btn btn-generate-pay w-100 py-2 fw-bold"
+            >
+              <i class="bi bi-download me-1"></i> Descargar Ficha PDF
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Header Principal -->
     <nav
       class="navbar navbar-unid navbar-expand-lg d-flex justify-content-between align-items-center"
     >
@@ -328,7 +428,7 @@
       </div>
     </nav>
 
-    <!-- Contenido Principal (Alineación natural a la izquierda) -->
+    <!-- Contenido Principal -->
     <main class="main-content container-fluid px-md-5 py-4">
       <!-- Tarjeta Alumno -->
       <div class="student-info-card mb-4">
@@ -436,7 +536,7 @@
       </form>
     </main>
 
-    <!-- Contenedor Unificado: Barra de Pago + Footer Oscuro (Conservado Intacto) -->
+    <!-- Contenedor Unificado: Barra de Pago + Footer Oscuro -->
     <div class="bottom-sticky-wrapper">
       <!-- Barra de Pago (Blanca) -->
       <div
@@ -479,9 +579,27 @@
     <script>
       document.addEventListener("DOMContentLoaded", () => {
         const selectConcepto = document.getElementById("selectConcepto");
+        const selectPeriodo = document.getElementById("selectPeriodo");
         const inputNumPagos = document.getElementById("inputNumPagos");
+        const inputVigencia = document.getElementById("inputVigencia");
         const montoTotalText = document.getElementById("montoTotalText");
         const btnGenerarFicha = document.getElementById("btnGenerarFicha");
+
+        // Elementos del Modal Ficha
+        const modalConceptoText = document.getElementById("modalConceptoText");
+        const modalPeriodoText = document.getElementById("modalPeriodoText");
+        const modalPagosText = document.getElementById("modalPagosText");
+        const modalVigenciaText = document.getElementById("modalVigenciaText");
+        const modalMontoText = document.getElementById("modalMontoText");
+        const btnConfirmDownload = document.getElementById("btnConfirmDownload");
+
+        // Modales Bootstrap
+        const modalLogout = new bootstrap.Modal(
+          document.getElementById("modalLogout")
+        );
+        const modalFicha = new bootstrap.Modal(
+          document.getElementById("modalFicha")
+        );
 
         // Precios según concepto
         const precios = {
@@ -497,29 +615,47 @@
           const numPagos = parseInt(inputNumPagos.value, 10) || 1;
 
           const total = basePrice * numPagos;
+          return total;
+        }
+
+        function actualizarVistaMonto() {
+          const total = calcularMonto();
           montoTotalText.textContent = `$${total.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} MXN`;
         }
 
-        selectConcepto.addEventListener("change", calcularMonto);
-        inputNumPagos.addEventListener("input", calcularMonto);
+        selectConcepto.addEventListener("change", actualizarVistaMonto);
+        inputNumPagos.addEventListener("input", actualizarVistaMonto);
 
-        // Acción del botón Generar Ficha
+        // Abrir Modal con Desglose
         btnGenerarFicha.addEventListener("click", () => {
           const conceptoText =
             selectConcepto.options[selectConcepto.selectedIndex].text;
-          alert(`Generando Ficha de Pago en PDF para: ${conceptoText}`);
+          const periodoText =
+            selectPeriodo.options[selectPeriodo.selectedIndex].text;
+          const numPagos = inputNumPagos.value || "1";
+          const vigencia = inputVigencia.value || "N/A";
+          const totalFormatted = montoTotalText.textContent;
+
+          modalConceptoText.textContent = conceptoText;
+          modalPeriodoText.textContent = periodoText;
+          modalPagosText.textContent = numPagos;
+          modalVigenciaText.textContent = vigencia;
+          modalMontoText.textContent = totalFormatted;
+
+          modalFicha.show();
         });
 
-        const modalLogout = new bootstrap.Modal(
-          document.getElementById("modalLogout"),
-        );
+        // Simular descarga desde el Modal
+        btnConfirmDownload.addEventListener("click", () => {
+          modalFicha.hide();
+          alert("Descargando Ficha de Pago en formato PDF...");
+        });
 
-        // Botón Salir (Abre el Modal en lugar del confirm de Chrome)
+        // Botón Salir
         const btnLogout = document.getElementById("btnLogout");
         if (btnLogout) {
           btnLogout.addEventListener("click", () => {
             modalLogout.show();
-            F;
           });
         }
 
@@ -527,7 +663,6 @@
         const btnConfirmLogout = document.getElementById("btnConfirmLogout");
         if (btnConfirmLogout) {
           btnConfirmLogout.addEventListener("click", () => {
-            // Borrar el historial de navegación para evitar volver atrás
             history.pushState(null, null, "../index.html");
             window.location.href = "../index.html";
           });

@@ -143,7 +143,7 @@
             color: var(--text-main);
         }
 
-        /* Cards KPI con Acentuación Guiada */
+        /* Cards KPI */
         .kpi-card {
             background-color: var(--card-bg);
             border-radius: 12px;
@@ -294,60 +294,114 @@
             padding: 1rem 2rem;
         }
 
-              /* Psicología y Estética del Modal de Salida */
-      .bg-danger-subtle {
-        background-color: #fee2e2 !important;
-      }
+        /* Modales */
+        .bg-danger-subtle {
+            background-color: #fee2e2 !important;
+        }
 
-      .modal-content {
-        border-radius: 12px;
-      }
+        .bg-success-subtle {
+            background-color: #dcfce7 !important;
+        }
+
+        .modal-content {
+            border-radius: 12px;
+        }
+
+        .payment-option-card {
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .payment-option-card:hover {
+            border-color: var(--primary-blue);
+            background-color: #f8fafc;
+        }
+
+        .payment-option-card.active {
+            border-color: var(--primary-blue);
+            background-color: #eff6ff;
+        }
     </style>
 </head>
 <body>
-        <!-- modal -->
+
     <!-- Modal Confirmación Cierre de Sesión -->
-    <div
-      class="modal fade"
-      id="modalLogout"
-      tabindex="-1"
-      aria-labelledby="modalLogoutLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog modal-dialog-centered modal-sm">
-        <div class="modal-content border-0 shadow-lg">
-          <div class="modal-body text-center p-4">
-            <div
-              class="rounded-circle bg-danger-subtle text-danger d-inline-flex align-items-center justify-content-center mb-3"
-              style="width: 60px; height: 60px"
-            >
-              <i class="bi bi-box-arrow-right fs-2"></i>
+    <div class="modal fade" id="modalLogout" tabindex="-1" aria-labelledby="modalLogoutLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content border-0 shadow-lg">
+                <div class="modal-body text-center p-4">
+                    <div class="rounded-circle bg-danger-subtle text-danger d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px">
+                        <i class="bi bi-box-arrow-right fs-2"></i>
+                    </div>
+                    <h5 class="fw-bold mb-2" id="modalLogoutLabel">¿Cerrar sesión?</h5>
+                    <p class="text-muted small mb-4">Estás a punto de salir del Portal de Alumnos UNID.</p>
+                    <div class="d-flex gap-2">
+                        <button type="button" class="btn btn-light w-50 fw-semibold" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" id="btnConfirmLogout" class="btn btn-danger w-50 fw-semibold">Salir</button>
+                    </div>
+                </div>
             </div>
-            <h5 class="fw-bold mb-2" id="modalLogoutLabel">¿Cerrar sesión?</h5>
-            <p class="text-muted small mb-4">
-              Estás a punto de salir del Portal de Alumnos UNID.
-            </p>
-            <div class="d-flex gap-2">
-              <button
-                type="button"
-                class="btn btn-light w-50 fw-semibold"
-                data-bs-dismiss="modal"
-              >
-                Cancelar
-              </button>
-              <button
-                type="button"
-                id="btnConfirmLogout"
-                class="btn btn-danger w-50 fw-semibold"
-              >
-                Salir
-              </button>
-            </div>
-          </div>
         </div>
-      </div>
     </div>
 
+    <!-- Modal Procesar Pago (Éxito/Seguridad - Verde/Azul) -->
+    <div class="modal fade" id="modalPayment" tabindex="-1" aria-labelledby="modalPaymentLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg">
+                <div class="modal-header border-0 pb-0">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body px-4 pb-4 pt-0">
+                    <div class="text-center mb-3">
+                        <div class="rounded-circle bg-success-subtle text-success d-inline-flex align-items-center justify-content-center mb-2" style="width: 56px; height: 56px">
+                            <i class="bi bi-shield-lock-fill fs-2"></i>
+                        </div>
+                        <h5 class="fw-bold mb-1" id="modalPaymentLabel">Confirmar y Pagar</h5>
+                        <p class="text-muted small mb-0">Transacción encriptada y 100% segura</p>
+                    </div>
+
+                    <!-- Resumen del Pago -->
+                    <div class="p-3 bg-light rounded-3 mb-3">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="text-muted small">Conceptos a liquidar:</span>
+                            <span id="modalSelectedCount" class="badge bg-secondary">2 seleccionados</span>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center pt-2 border-top">
+                            <span class="fw-bold text-dark">Total a pagar:</span>
+                            <strong id="modalTotalPay" class="fs-4 text-success">$880.00 MXN</strong>
+                        </div>
+                    </div>
+
+                    <!-- Selección de Método de Pago -->
+                    <div class="mb-4">
+                        <label class="meta-label mb-2 d-block">MÉTODO DE PAGO</label>
+                        <div class="d-flex flex-column gap-2">
+                            <div class="payment-option-card active d-flex align-items-center justify-content-between">
+                                <div class="d-flex align-items-center gap-2">
+                                    <i class="bi bi-credit-card-2-front fs-5 text-primary"></i>
+                                    <span class="fw-semibold small">Tarjeta de Débito / Crédito</span>
+                                </div>
+                                <i class="bi bi-check-circle-fill text-primary"></i>
+                            </div>
+                            <div class="payment-option-card d-flex align-items-center justify-content-between">
+                                <div class="d-flex align-items-center gap-2">
+                                    <i class="bi bi-bank fs-5 text-secondary"></i>
+                                    <span class="fw-semibold small">Transferencia SPEI</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="button" id="btnExecutePay" class="btn btn-pay w-100 py-2 fw-bold">
+                        <i class="bi bi-lock-fill me-1"></i> Proceder al Pago Seguro
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Header Principal -->
     <nav class="navbar navbar-unid navbar-expand-lg d-flex justify-content-between align-items-center">
@@ -541,6 +595,14 @@
             const selectedCountText = document.getElementById('selectedCountText');
             const btnContinuePay = document.getElementById('btnContinuePay');
 
+            // Modales Bootstrap
+            const modalLogout = new bootstrap.Modal(document.getElementById("modalLogout"));
+            const modalPayment = new bootstrap.Modal(document.getElementById("modalPayment"));
+
+            // Variables acumuladoras
+            let currentTotal = 880.00;
+            let currentCount = 2;
+
             function updateTotal() {
                 let total = 0;
                 let count = 0;
@@ -551,6 +613,9 @@
                         count++;
                     }
                 });
+
+                currentTotal = total;
+                currentCount = count;
 
                 totalAmountText.textContent = `$${total.toFixed(2)} MXN`;
                 
@@ -569,32 +634,34 @@
                 chk.addEventListener('change', updateTotal);
             });
 
+            // Abrir Modal de Pago
             btnContinuePay.addEventListener('click', () => {
-                window.location.href = 'pasarela-de-pago.html'; // Redirección directa
+                document.getElementById('modalSelectedCount').textContent = `${currentCount} seleccionado${currentCount > 1 ? 's' : ''}`;
+                document.getElementById('modalTotalPay').textContent = `$${currentTotal.toFixed(2)} MXN`;
+                modalPayment.show();
             });
 
-           const modalLogout = new bootstrap.Modal(
-          document.getElementById("modalLogout"),
-        );
+            // Acción del botón interno de pago dentro del modal
+            document.getElementById('btnExecutePay').addEventListener('click', () => {
+                modalPayment.hide();
+                // Lógica de procesamiento de pago
+            });
 
-        // Botón Salir (Abre el Modal en lugar del confirm de Chrome)
-        const btnLogout = document.getElementById("btnLogout");
-        if (btnLogout) {
-          btnLogout.addEventListener("click", () => {
-            modalLogout.show();
-            F;
-          });
-        }
+            // Salir
+            const btnLogout = document.getElementById("btnLogout");
+            if (btnLogout) {
+                btnLogout.addEventListener("click", () => {
+                    modalLogout.show();
+                });
+            }
 
-        // Acción al confirmar la salida dentro del modal
-        const btnConfirmLogout = document.getElementById("btnConfirmLogout");
-        if (btnConfirmLogout) {
-          btnConfirmLogout.addEventListener("click", () => {
-            // Borrar el historial de navegación para evitar volver atrás
-            history.pushState(null, null, "../index.html");
-            window.location.href = "../index.html";
-          });
-        }
+            const btnConfirmLogout = document.getElementById("btnConfirmLogout");
+            if (btnConfirmLogout) {
+                btnConfirmLogout.addEventListener("click", () => {
+                    history.pushState(null, null, "../index.html");
+                    window.location.href = "../index.html";
+                });
+            }
         });
     </script>
 </body>
